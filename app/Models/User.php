@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\AssessmentAttempt;
 
 class User extends Authenticatable
 {
@@ -18,9 +19,17 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+    'name',
+    'email',
+    'password',
+    'role',
+    'is_invited',
+    'can_take_test',
+];
+
+    protected $casts = [
+        'is_invited' => 'boolean',
+        'can_take_test' => 'boolean',
     ];
 
     /**
@@ -44,5 +53,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function assessmentAttempts()
+    {
+        return $this->hasMany(AssessmentAttempt::class);
     }
 }
